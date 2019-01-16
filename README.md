@@ -1,2 +1,2 @@
 # brouhard-python
-Python scripts used in the Brouhard Lab, McGill Biology Department
+Python scripts by Sofía Cruz, Brouhard Lab, McGill Biology Department
