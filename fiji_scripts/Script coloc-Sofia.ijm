@@ -1,0 +1,46 @@
+pathGFP = File.openDialog("Select a GFP File");
+pathRFP = File.openDialog("Select a RFP File");
+pathMT = File.openDialog("Select a Microtubule File");
+dir = File.getDirectory(pathGFP)
+
+run("TIFF Virtual Stack...", "open=["+pathGFP+"]");
+GFP = getTitle();
+run("TIFF Virtual Stack...", "open=["+pathRFP+"]");
+RFP = getTitle();
+run("TIFF Virtual Stack...", "open=["+pathMT+"]");
+MT = getTitle();
+
+Split = split(GFP, "g")
+CompNumb = Split[0]
+
+var DiaBlur = 10;
+var DiaMedian = 0.5;
+
+// Image procesing
+
+run("Merge Channels...", "c2="+GFP+" c3="+MT+" c6="+RFP+" create");
+run("Median...", "radius="+DiaMedian+" stack");
+
+run("Duplicate...", "duplicate");
+run("Gaussian Blur...", "sigma="+DiaBlur+" stack");
+
+imageCalculator("Subtract create stack", "Composite","Composite-1");
+selectWindow("Result of Composite");
+save(dir+CompNumb+"_Composite.tif");
+close("\\Others");
+
+// MT mask
+
+run("Duplicate...", "title=[MT_mask] duplicate channels=2");
+setAutoThreshold("Otsu dark");
+run("Convert to Mask");
+run("Invert");
+imageCalculator("Subtract create stack", "Result of Composite","MT_mask");
+rename("Masked_Composite");
+save(dir+CompNumb+"_Masked-Composite.tif");
+close("\\Others");
+
+// Threshold channels
+
+setAutoThreshold("Otsu dark");
+run("Convert to Mask");
