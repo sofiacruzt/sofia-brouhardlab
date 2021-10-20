@@ -34,13 +34,17 @@ close("\\Others");
 run("Duplicate...", "title=[MT_mask] duplicate channels=2");
 setAutoThreshold("Otsu dark");
 run("Convert to Mask");
-run("Invert");
-imageCalculator("Subtract create stack", "Result of Composite","MT_mask");
+imageCalculator("AND create stack", "Result of Composite","MT_mask");
 rename("Masked_Composite");
 save(dir+CompNumb+"_Masked-Composite.tif");
-close("\\Others");
+
 
 // Threshold channels
 
-setAutoThreshold("Otsu dark");
-run("Convert to Mask");
+run("Make Binary", "method=Otsu background=Default calculate");
+
+run("Split Channels");
+run("Merge Channels...", "c2=C1-Masked_Composite c3=MT_mask c6=C3-Masked_Composite create");
+save(dir+CompNumb+"_Binary-Composite.tif");
+close("\\Others");
+
