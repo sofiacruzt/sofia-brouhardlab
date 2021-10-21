@@ -3,6 +3,8 @@ pathRFP = File.openDialog("Select a RFP File");
 pathMT = File.openDialog("Select a Microtubule File");
 dir = File.getDirectory(pathGFP)
 
+setBatchMode(true); 
+
 run("TIFF Virtual Stack...", "open=["+pathGFP+"]");
 GFP = getTitle();
 run("TIFF Virtual Stack...", "open=["+pathRFP+"]");
@@ -39,12 +41,29 @@ rename("Masked_Composite");
 save(dir+CompNumb+"_Masked-Composite.tif");
 
 
-// Threshold channels
+// Make channels binary
 
-run("Make Binary", "method=Otsu background=Default calculate");
+run("Make Binary", "method=Otsu background=Dark calculate black");
 
 run("Split Channels");
 run("Merge Channels...", "c2=C1-Masked_Composite c3=MT_mask c6=C3-Masked_Composite create");
 save(dir+CompNumb+"_Binary-Composite.tif");
 close("\\Others");
+
+// Measure Colocalization Correlation
+
+run("Split Channels");
+selectWindow("C1-Masked_Composite");
+run("Measure");
+imageCalculator("Multiply create", "C1-Masked_Composite","C3-Masked_Composite");
+save(dir+CompNumb+"_Binary-GFPxRFP.tif");
+run("Measure");
+saveAs("Results", dir+CompNumb+"_Results.csv"); // 1 is CH-GFP, 2 is CH-GFPxCH-RFP
+close("*");
+setBatchMode(false);
+
+// Open final images
+open(dir+CompNumb+"_Binary-Composite.tif");
+open(dir+CompNumb+"_Binary-GFPxRFP.tif");
+
 
