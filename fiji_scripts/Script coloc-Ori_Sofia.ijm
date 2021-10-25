@@ -1,7 +1,7 @@
 path = File.openDialog("Select a nd2 File");
 dir = File.getDirectory(path)
 
-//setBatchMode(true); 
+setBatchMode(true); 
 
 run("Bio-Formats Importer", "open=["+path+"] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
 stack = getTitle();
