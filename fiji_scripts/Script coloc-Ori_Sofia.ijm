@@ -1,7 +1,7 @@
 path = File.openDialog("Select a nd2 File");
 dir = File.getDirectory(path)
 
-setBatchMode(true); 
+//setBatchMode(true); 
 
 run("Bio-Formats Importer", "open=["+path+"] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
 stack = getTitle();
@@ -21,35 +21,38 @@ run("Gaussian Blur...", "sigma="+DiaBlur+" stack");
 
 imageCalculator("Subtract create stack", stack , stack1);
 rename("Result of Composite");
-//save(dir+CompNumb+"_Composite.tif");
-close("\\Others");
-
-// MT mask
-
-run("Duplicate...", "title=[MT_mask] duplicate channels=3");
-setAutoThreshold("Otsu dark");
-run("Convert to Mask");
-imageCalculator("AND create stack", "Result of Composite","MT_mask");
-rename("Masked_Composite");
-//save(dir+CompNumb+"_Masked-Composite.tif");
-
+save(dir+CompNumb+"_Composite.tif");
+//close("\\Others");
 
 // Make channels binary
 
 run("Make Binary", "method=Otsu background=Dark calculate black");
 
-run("Split Channels");
-run("Merge Channels...", "c1=MT_mask c2=C2-Masked_Composite c3=C1-Masked_Composite create");
+//run("Split Channels");
 save(dir+CompNumb+"_Binary-Composite.tif");
-close("\\Others");
+//close("\\Others");
+
+// MT mask - mask after binary instead of before
+
+run("Duplicate...", "title=[MT_mask] duplicate channels=3");
+
+imageCalculator("AND create stack", "Result of Composite","MT_mask");
+rename("Masked_Composite");
+//run("Channels Tool...");
+run("Blue");
+Stack.setChannel(2);
+run("Green");
+Stack.setChannel(3);
+run("Red");
+Stack.setDisplayMode("composite");
+save(dir+CompNumb+"_Masked-Composite.tif");
 
 // Measure Colocalization Correlation
 
-
 run("Split Channels");
-selectWindow("C2-Composite");
+selectWindow("C2-Masked_Composite");
 run("Measure");
-imageCalculator("Multiply create", "C2-Composite","C3-Composite");
+imageCalculator("Multiply create", "C1-Masked_Composite","C2-Masked_Composite");
 save(dir+CompNumb+"_Binary-GFPxRFP.tif");
 run("Measure");
 saveAs("Results", dir+CompNumb+"_Results.csv"); // 1 is CH-GFP, 2 is CH-GFPxCH-RFP
@@ -59,7 +62,7 @@ setBatchMode(false);
 
 // Open final images
 
-open(dir+CompNumb+"_Binary-Composite.tif");
+open(dir+CompNumb+"_Masked-Composite.tif");
 open(dir+CompNumb+"_Binary-GFPxRFP.tif");
 open(dir+CompNumb+"_Composite.tif");
 run("Make Composite");
