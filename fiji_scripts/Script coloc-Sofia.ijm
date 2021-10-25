@@ -65,5 +65,7 @@ setBatchMode(false);
 // Open final images
 open(dir+CompNumb+"_Binary-Composite.tif");
 open(dir+CompNumb+"_Binary-GFPxRFP.tif");
+open(dir+CompNumb+"_Composite.tif");
+run("Make Composite");
 
 
