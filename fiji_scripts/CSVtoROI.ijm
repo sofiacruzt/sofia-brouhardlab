@@ -1,7 +1,7 @@
 
 // Import it into a results table. 
 run("Results... "); 
- for (i = 0; i < nResults; i++) 
+ for (i = 3; i < nResults; i++) 
    { 
       // You may need to change the "frame", etc strings to match your csv file. 
       slice = getResult("POSITION_T", i);
