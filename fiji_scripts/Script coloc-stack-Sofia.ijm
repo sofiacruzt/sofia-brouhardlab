@@ -1,9 +1,9 @@
 path = File.openDialog("Select a Stack File");
 dir = File.getDirectory(path)
 
-setBatchMode(true); 
+//setBatchMode(true); 
+open(path);
 
-run("TIFF Virtual Stack...", "open=["+path+"]");
 stack = getTitle();
 rename("Composite");
 
@@ -14,9 +14,7 @@ var DiaBlur = 10;
 var DiaMedian = 0.5;
 
 // Image procesing
-
 run("Median...", "radius="+DiaMedian+" stack");
-
 run("Duplicate...", "duplicate");
 run("Gaussian Blur...", "sigma="+DiaBlur+" stack");
 
@@ -63,6 +61,6 @@ setBatchMode(false);
 // Open final images
 open(dir+CompNumb+"_Masked-Binary-Composite.tif");
 open(dir+CompNumb+"_Binary-GFPxRFP.tif");
-open(dir+CompNumb+"_Masked-Composite.tif");
-run("Make Composite");
+open(dir+CompNumb+"_Composite.tif");
+
 
