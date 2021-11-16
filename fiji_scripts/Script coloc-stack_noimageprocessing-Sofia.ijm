@@ -55,6 +55,8 @@ selectWindow("C1-Masked_Composite");
 run("Measure");
 selectWindow("C2-Masked_Composite");
 run("Measure");
+selectWindow("C3-Masked_Composite");
+run("Measure");
 imageCalculator("Multiply create", "C1-Masked_Composite","C2-Masked_Composite");
 save(dir+CompNumb+"_Binary-GFPxRFP.tif");
 run("Measure");
