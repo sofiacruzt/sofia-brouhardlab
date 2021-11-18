@@ -26,7 +26,7 @@ setBatchMode(true);
 // make MT mask
 
 run("Duplicate...", "title=[MT_mask] duplicate channels=3");
-setAutoThreshold("Li dark");
+setAutoThreshold("Otsu dark");
 run("Median...", "radius=2");
 run("Convert to Mask");
 run("Invert");
