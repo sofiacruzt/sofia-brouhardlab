@@ -26,12 +26,6 @@ images = []
 total_x_shift = 0
 total_y_shift = 0
 
-# Get the first frame (TODO: find a more convenient way !)
-intervals = Intervals.createMinMax(0, 0, 0, ds.getWidth() - 1, ds.getHeight() - 1, 0)
-first_frame = ops.transform().crop(img, intervals)
-
-images.append(first_frame)
-
 # Iterate over regions of interest
 for j, r in enumerate(range(len(rois)-1)):
 
@@ -91,8 +85,5 @@ for j, r in enumerate(range(len(rois)-1)):
 
 		images.append(translated_frame)
 
-
 images = ops.run("transform.stackView", [images])
 final_dataset = datasetService.create(images)
-
-
