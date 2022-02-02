@@ -6,7 +6,7 @@ open(path);
 stack = getTitle();
 rename("Composite");
 
-Split = split(stack, "_s")
+Split = split(stack, "-s")
 CompNumb = Split[0]
 
 var DiaBlur = 10;
