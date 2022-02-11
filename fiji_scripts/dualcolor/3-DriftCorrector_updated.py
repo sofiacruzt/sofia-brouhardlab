@@ -13,9 +13,9 @@ from net.imglib2.view import Views
 
 from ij.plugin.frame import RoiManager
 
-ij.ui().showDialog("This script only works with single channel images. " +
-	"If your script has multiple channels, please use `Image > Color > Split Channels` " +
-	"and apply the script on each individual channel.");
+#ij.ui().showDialog("This script only works with single channel images. " +
+#	"If your script has multiple channels, please use `Image > Color > Split Channels` " +
+#	"and apply the script on each individual channel.");
 
 # Initialize some variables
 img = ds.getImgPlus()
