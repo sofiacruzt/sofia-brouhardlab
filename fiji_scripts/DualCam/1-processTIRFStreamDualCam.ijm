@@ -40,10 +40,10 @@ selectWindow("Result of Composite");
 run("Median...", "radius="+DiaMedian+" stack");
 
 
-save(dir+name+"_Composite.tif");
+save(dir+name+"_Composite_GFP.tif");
 close("*");
 
 setBatchMode(false);
 
-run("TIFF Virtual Stack...", "open=["+dir+name+"_Composite.tif"+"]");
+run("TIFF Virtual Stack...", "open=["+dir+name+"_Composite_GFP.tif"+"]");
 
