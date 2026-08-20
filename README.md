@@ -1,4 +1,4 @@
-Script developed during my Doctoral studies at McGill to analyze data presented in my thesis and publications. Programming languages include Python and Fiji (ImageJ) macros. <br>
+Scripts developed during my Doctoral studies at McGill to analyze data presented in my thesis and publications. Programming languages include Python and Fiji (ImageJ) macros. <br>
 'fiji_scripts' inlcudes scripts used for image processing throughout my work.<br>
 'curvature_taxol' includes scripts used in Chapter 3 of my Thesis, titled 'DCX Prefers and Induces the Compacted Microtubule State', published in Current Biology https://doi.org/10.1016/j.cub.2025.07.080 <br>
 'DualColor' includes scripts used for image processing and analysis of data published in eLife https://doi.org/10.7554/eLife.66975 <br>
